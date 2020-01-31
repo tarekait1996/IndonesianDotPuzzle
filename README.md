@@ -1,5 +1,8 @@
 # IndonesianDotPuzzle : COMP 472 Project #1
 
+## Project Setup
+- [![Run on Repl.it](https://repl.it/badge/github/tarekait1996/IndonesianDotPuzzle)](https://repl.it/github/tarekait1996/IndonesianDotPuzzle)
+
 ## Problem definition
 Problem is defined in the following [document](https://moodle.concordia.ca/moodle/pluginfile.php/3793266/mod_label/intro/COMP_472_2020_Winter_Project_1.pdf) on Moodle.
 
