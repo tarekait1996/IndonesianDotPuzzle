@@ -1,10 +1,9 @@
 from Board import Board;
 
-# This method takes a file name as input and returns a list with the puzzle configurations
-MAX_DEPTH = 0
 openList = []
 closedList = set()
 
+# This method takes a file name as input and returns a list with the puzzle configurations
 def get_input(inputFile):
     inputList = []
     with open(inputFile) as file:
@@ -16,21 +15,24 @@ def get_input(inputFile):
     return inputList
 
 
-def dfs_max_depth(board: Board, curr_depth: int):
-    if curr_depth > MAX_DEPTH or closedList.__contains__(board):
+def dfs_max_depth(board: Board, curr_depth: int, max_depth: int):
+    if curr_depth > max_depth or closedList.__contains__(board):
         return
+    print("\n")
+    print(board.puzzle_config)
+    print("\n")
     closedList.add(board)
     if board.isGoal():
         foundIt()
-
+        return
     else:
         for i in range(0, board.size + 1):
-            dfs_max_depth(board.touch(i), curr_depth + 1)
+            dfs_max_depth(board.touch(i), curr_depth + 1, max_depth)
 
 
 # just for now
 def foundIt():
-    return
+    print("Found It!")
 
 
 # test code to verify working code
@@ -42,20 +44,23 @@ def test():
         # Create root node
         board = Board(int(element[0]), element[3], None)
 
-        MAX_DEPTH = element[1]
-        print("Alphanumeric positon at index 3 [testing method getPostion()]: " + board.getPosition(3))
-        print("\n[testing printBoard()]\nOriginal Config:")
-        board.printBoard()
-        print("Is this the root? " + str(board.isRoot()))
-        print("Is this the goal? " + str(board.isGoal()))
+        max_depth = int(element[1])
 
-        print("\n---Touch index 6!---")
-        print("\n[testing touch()]\nResulting Config:")
-        child = board.touch(6)
-        child.printBoard()
-        print("Is this the root? " + str(child.isRoot()))
-        print("Is this the goal? " + str(child.isGoal()))
-        print("===========================")
+        dfs_max_depth(board, 1, max_depth)
+
+        # print("Alphanumeric positon at index 3 [testing method getPostion()]: " + board.getPosition(3))
+        # print("\n[testing printBoard()]\nOriginal Config:")
+        # board.printBoard()
+        # print("Is this the root? " + str(board.isRoot()))
+        # print("Is this the goal? " + str(board.isGoal()))
+        #
+        # print("\n---Touch index 6!---")
+        # print("\n[testing touch()]\nResulting Config:")
+        # child = board.touch(6)
+        # child.printBoard()
+        # print("Is this the root? " + str(child.isRoot()))
+        # print("Is this the goal? " + str(child.isGoal()))
+        # print("===========================")
 
     print("===========================")
     print("[Testing method isGoal()]")
