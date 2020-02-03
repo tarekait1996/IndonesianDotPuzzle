@@ -2,7 +2,8 @@ from Board import Board;
 
 # This method takes a file name as input and returns a list with the puzzle configurations
 MAX_DEPTH = 0
-
+openList = []
+closedList = set()
 
 def get_input(inputFile):
     inputList = []
@@ -16,12 +17,15 @@ def get_input(inputFile):
 
 
 def dfs_max_depth(board: Board, curr_depth: int):
-    if curr_depth > MAX_DEPTH:
+    if curr_depth > MAX_DEPTH or closedList.__contains__(board):
         return
+    closedList.add(board)
     if board.isGoal():
         foundIt()
-    for i in range(0, board.size + 1):
-        dfs_max_depth(board.touch(i), curr_depth + 1)
+
+    else:
+        for i in range(0, board.size + 1):
+            dfs_max_depth(board.touch(i), curr_depth + 1)
 
 
 # just for now
