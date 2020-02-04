@@ -27,7 +27,7 @@ class Board:
         if index == -1:
             return board
         else:
-            resulting_board = board[:index] + str((int(board[index]) + 1) % 2) + board[index + 1:]
+            resulting_board = board[:index] + str(1-int(board[index])) + board[index + 1:]
             return resulting_board
 
     def getTop(self, index):

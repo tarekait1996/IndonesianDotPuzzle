@@ -1,6 +1,5 @@
 from Board import Board;
 
-openList = []
 closedList = set()
 
 # This method takes a file name as input and returns a list with the puzzle configurations
@@ -21,13 +20,17 @@ def dfs_max_depth(board: Board, curr_depth: int, max_depth: int):
     print("\n")
     print(board.puzzle_config)
     print("\n")
+    openList = []
     closedList.add(board)
     if board.isGoal():
         foundIt()
         return
     else:
         for i in range(0, board.size + 1):
-            dfs_max_depth(board.touch(i), curr_depth + 1, max_depth)
+            openList.append(board.touch(i))
+        openList.sort(key=lambda x: x.puzzle_config)
+        for board in openList:
+            dfs_max_depth(board, curr_depth + 1, max_depth)
 
 
 # just for now
@@ -45,8 +48,8 @@ def test():
         board = Board(int(element[0]), element[3], None)
 
         max_depth = int(element[1])
-
         dfs_max_depth(board, 1, max_depth)
+
 
         # print("Alphanumeric positon at index 3 [testing method getPostion()]: " + board.getPosition(3))
         # print("\n[testing printBoard()]\nOriginal Config:")
