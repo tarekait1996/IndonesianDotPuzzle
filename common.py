@@ -1,43 +1,46 @@
 from Board import Board;
 
 closedList = set()
+goal_found_flag = False
 
 # This method takes a file name as input and returns a list with the puzzle configurations
 def get_input(inputFile):
-    inputList = []
+    input_list = []
     with open(inputFile) as file:
         for line in file:
             puzzle_config = line.split()
             if len(puzzle_config) != 4:
                 raise Exception("Incorrect input format. Verify file: " + inputFile)
-            inputList.append(line.split())
-    return inputList
+            input_list.append(line.split())
+    return input_list
 
 
 def dfs_max_depth(board: Board, curr_depth: int, max_depth: int):
-    if curr_depth > max_depth or closedList.__contains__(board):
+
+    global goal_found_flag
+    open_list = []
+
+    if should_stop_looking(curr_depth, max_depth, board):
         return
+
     print("\n")
-    print(board.puzzle_config)
+    board.printBoard()
     print("\n")
-    openList = []
+
     closedList.add(board)
+
     if board.isGoal():
-        foundIt()
-        return
+        print("Found it!\n")
+        goal_found_flag = True
     else:
-        for i in range(0, board.size + 1):
-            openList.append(board.touch(i))
-        openList.sort(key=lambda x: x.puzzle_config)
-        for board in openList:
+        for i in range(0, board.size*board.size):
+            open_list.append(board.touch(i))
+        open_list.sort(key=lambda x: x.puzzle_config)
+        for board in open_list:
             dfs_max_depth(board, curr_depth + 1, max_depth)
 
-
-# just for now
-def foundIt():
-    print("Found It!")
-
-
+def should_stop_looking(curr_depth: int, max_depth : int, board: Board):
+    return goal_found_flag or curr_depth > max_depth or closedList.__contains__(board)
 # test code to verify working code
 def test():
     print("Test the getInput() method")
@@ -51,25 +54,4 @@ def test():
         dfs_max_depth(board, 1, max_depth)
 
 
-        # print("Alphanumeric positon at index 3 [testing method getPostion()]: " + board.getPosition(3))
-        # print("\n[testing printBoard()]\nOriginal Config:")
-        # board.printBoard()
-        # print("Is this the root? " + str(board.isRoot()))
-        # print("Is this the goal? " + str(board.isGoal()))
-        #
-        # print("\n---Touch index 6!---")
-        # print("\n[testing touch()]\nResulting Config:")
-        # child = board.touch(6)
-        # child.printBoard()
-        # print("Is this the root? " + str(child.isRoot()))
-        # print("Is this the goal? " + str(child.isGoal()))
-        # print("===========================")
-
-    print("===========================")
-    print("[Testing method isGoal()]")
-    goal = Board(3, '000000000', None)
-    goal.printBoard();
-    print("Is this the goal? " + str(goal.isGoal()))
-
-
-test();
+test()
