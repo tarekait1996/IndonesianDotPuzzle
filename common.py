@@ -21,19 +21,18 @@ def dfs_max_depth(board: Board, max_depth: int):
     global goal_found_flag
     global open_list
     global closedList
+
     open_list.append(board)
 
     while len(open_list) != 0 and goal_found_flag is False:
 
         b = open_list.pop()
 
+        if closedList.__contains__(b.puzzle_config):
+            continue
         print("\n")
         b.printBoard()
         print("\n")
-
-        if closedList.__contains__(b.puzzle_config):
-            continue
-
         closedList.add(b.puzzle_config)
 
         if b.isGoal():
@@ -43,9 +42,7 @@ def dfs_max_depth(board: Board, max_depth: int):
         elif b.depth < max_depth:
             temp_arr = []
             for i in range(0, b.size * b.size):
-                c_board = board.touch(i)
-                c_board.depth = c_board.depth+1
-                temp_arr.append(c_board)
+                temp_arr.append(b.touch(i))
             temp_arr.sort(reverse=True, key=lambda x: x.puzzle_config)
             open_list.extend(temp_arr)
 
@@ -58,11 +55,11 @@ def test():
     for element in get_input("input.txt"):
         print(element)
         # Create root node
-        board = Board(int(element[0]), element[3], None)
-
+        board = Board(int(element[0]), element[3], None, 1)
         max_depth = int(element[1])
         dfs_max_depth(board, max_depth)
         goal_found_flag = False
+        open_list.clear()
 
 
 test()
