@@ -4,6 +4,7 @@ class Board:
 
     def __init__(self, size, puzzle_config, parent):
         self.size = size
+        self.depth = 1
         self.puzzle_config = puzzle_config
         self.parent = parent
 
