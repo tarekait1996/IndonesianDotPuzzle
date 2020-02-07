@@ -1,11 +1,11 @@
 # Board represents the nodes in our tree
 class Board:
     # precondition: size should be limited to maxium 26 (A-Z)
-
-    def __init__(self, size, puzzle_config, parent):
+    def __init__(self, size, puzzle_config, parent, touch_idx):
         self.size = size
         self.puzzle_config = puzzle_config
         self.parent = parent
+        self.touch_idx = touch_idx
 
     def getPosition(self, index):
         # According to the this (http://www.asciitable.com/), A-Z have codes between 65 and 90
@@ -21,7 +21,7 @@ class Board:
         new_config = self.switchTokenAt(self.getRight(index), new_config)
         new_config = self.switchTokenAt(self.getBottom(index), new_config)
         new_config = self.switchTokenAt(self.getLeft(index), new_config)
-        return Board(self.size, new_config, self)
+        return Board(self.size, new_config, self, index)
 
     def switchTokenAt(self, index, board):
         if index == -1:
@@ -69,3 +69,6 @@ class Board:
                 res += "\n"
             j += 1
         print(res)
+
+    def toString(self):
+        return self.getPosition(self.touch_idx) + "\t" + self.puzzle_config
