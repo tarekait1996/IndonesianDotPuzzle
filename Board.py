@@ -71,4 +71,7 @@ class Board:
         print(res)
 
     def toString(self):
-        return self.getPosition(self.touch_idx) + "\t" + self.puzzle_config
+        if self.touch_idx == -1:
+            return ("0 \t" + self.puzzle_config + "\n")
+
+        return self.getPosition(self.touch_idx) + "\t" + self.puzzle_config + "\n"
