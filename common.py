@@ -1,42 +1,50 @@
 from Board import Board;
 
-closedList = set()
+closedList = set()  ## hashSet
+open_list = []  ## Stack
 goal_found_flag = False
 
 # This method takes a file name as input and returns a list with the puzzle configurations
-def get_input(inputFile):
+def get_input(input_file):
     input_list = []
-    with open(inputFile) as file:
+    with open(input_file) as file:
         for line in file:
             puzzle_config = line.split()
             if len(puzzle_config) != 4:
-                raise Exception("Incorrect input format. Verify file: " + inputFile)
+                raise Exception("Incorrect input format. Verify file: " + input_file)
             input_list.append(line.split())
     print(input_list)
     return input_list
 
-def dfs_max_depth(board: Board, curr_depth: int, max_depth: int):
+
+def dfs_max_depth(board: Board, max_depth: int):
     global goal_found_flag
-    open_list = []
+    global open_list
+    global closedList
 
-    if should_stop_looking(curr_depth, max_depth, board):
-        return
+    open_list.append(board)
 
-    print("\n")
-    board.printBoard()
-    print("\n")
+    while len(open_list) != 0 and goal_found_flag is False:
 
-    closedList.add(board)
+        b = open_list.pop()
 
-    if board.isGoal():
-        print("Found it!\n")
-        goal_found_flag = True
-    else:
-        for i in range(0, board.size*board.size):
-            open_list.append(board.touch(i))
-        open_list.sort(key=lambda x: x.puzzle_config)
-        for board in open_list:
-            dfs_max_depth(board, curr_depth + 1, max_depth)
+        if closedList.__contains__(b.puzzle_config):
+            continue
+        print("\n")
+        b.printBoard()
+        print("\n")
+        closedList.add(b.puzzle_config)
+
+        if b.isGoal():
+            print("Found it!\n")
+            goal_found_flag = True
+
+        elif b.depth < max_depth:
+            temp_arr = []
+            for i in range(0, b.size * b.size):
+                temp_arr.append(b.touch(i))
+            temp_arr.sort(reverse=True, key=lambda x: x.puzzle_config)
+            open_list.extend(temp_arr)
 
 def should_stop_looking(curr_depth: int, max_depth : int, board: Board):
     return goal_found_flag or curr_depth >= max_depth or closedList.__contains__(board)
@@ -48,10 +56,12 @@ def test():
     for element in get_input("input.txt"):
         print(element)
         # Create root node
-        board = Board(int(element[0]), element[3], None, 0)
+        board = Board(int(element[0]), element[3], None, 0,  1)
         board.printBoard()
         max_depth = int(element[1])
-        dfs_max_depth(board, 1, max_depth)
+        dfs_max_depth(board, max_depth)
         goal_found_flag = False
+        open_list.clear()
+
 
 test()
