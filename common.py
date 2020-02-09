@@ -1,6 +1,6 @@
 from Board import Board;
 
-closedList = set()  ## hashSet
+closed_list = []  ## i need something ordered
 open_list = []  ## Stack
 goal_found_flag = False
 
@@ -13,14 +13,13 @@ def get_input(input_file):
             if len(puzzle_config) != 4:
                 raise Exception("Incorrect input format. Verify file: " + input_file)
             input_list.append(line.split())
-    print(input_list)
     return input_list
 
 
 def dfs_max_depth(board: Board, max_depth: int):
     global goal_found_flag
     global open_list
-    global closedList
+    global closed_list
 
     open_list.append(board)
 
@@ -28,12 +27,12 @@ def dfs_max_depth(board: Board, max_depth: int):
 
         b = open_list.pop()
 
-        if closedList.__contains__(b.puzzle_config):
+        if closed_list.count(b.puzzle_config) != 0:
             continue
         print("\n")
         b.printBoard()
         print("\n")
-        closedList.add(b.puzzle_config)
+        closed_list.append(b.puzzle_config)
 
         if b.isGoal():
             print("Found it!\n")
@@ -47,21 +46,36 @@ def dfs_max_depth(board: Board, max_depth: int):
             open_list.extend(temp_arr)
 
 def should_stop_looking(curr_depth: int, max_depth : int, board: Board):
-    return goal_found_flag or curr_depth >= max_depth or closedList.__contains__(board)
-# test code to verify working code
-def test():
+    return goal_found_flag or curr_depth >= max_depth or closed_list.count(board) != 0
+
+
+def test_dfs():
     global goal_found_flag
-    print("Test the getInput() method")
-    print("===========================")
+    line_number = 0 #TODO: check if there is a way of knowing the index without a counter
+    
     for element in get_input("input.txt"):
         print(element)
+
+        # Files creation
+        # file_name_dfs_solution = "Outputs/" + str(line_number) + "_dfs_solution.txt"
+        # file_dfs_solution = open(file_name_dfs_solution, "w+")
+
+        file_name_dfs_search = "Outputs/" + str(line_number) + "_dfs_search.txt"
+        file_dfs_search = open(file_name_dfs_search, "w+")
+
         # Create root node
         board = Board(int(element[0]), element[3], None, 0,  1)
-        board.printBoard()
         max_depth = int(element[1])
+
+        # DFS
         dfs_max_depth(board, max_depth)
+        for element in closed_list:
+          file_dfs_search.write(str(element.touch_idx) + " " + str(element.puzzle_config) + "\n")
+
+        line_number = line_number + 1
         goal_found_flag = False
         open_list.clear()
+        closed_list.clear()
 
 
-test()
+test_dfs()
