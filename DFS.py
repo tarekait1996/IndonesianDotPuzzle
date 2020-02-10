@@ -33,9 +33,6 @@ class DFS:
 
             b = open_list.pop()
 
-            if closed_list.__contains__(b.puzzle_config):
-                continue
-
             # Test
             print("\n")
             b.printBoard()

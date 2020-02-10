@@ -1,5 +1,8 @@
 # IndonesianDotPuzzle : COMP 472 Project #1
 
+## Project's url: 
+https://github.com/tarekait1996/IndonesianDotPuzzle/
+
 ## Project Setup
 - [![Run on Repl.it](https://repl.it/badge/github/tarekait1996/IndonesianDotPuzzle)](https://repl.it/github/tarekait1996/IndonesianDotPuzzle)
 
