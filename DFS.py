@@ -45,7 +45,7 @@ class DFS:
             self.search_file.write("0\t0\t0\t" + b.puzzle_config + "\n")
 
             if b.isGoal():
-                print("Found it!\n")
+                print("Found it!\n") # Test
                 self.populate_solution_file(b)
                 goal_found_flag = True
 
@@ -67,16 +67,25 @@ class DFS:
 
     def populate_solution_file(self, board: Board):
         solution_list = []
-        key_value_pair = {board.touch_idx: board.puzzle_config}
+        key_value_pair = {board.getPosition(board.touch_idx): board.puzzle_config}
         solution_list.append(key_value_pair)
 
         while not board.isRoot():
             board = board.parent
-            key_value_pair = {board.touch_idx: board.puzzle_config}
+            key_value_pair = {board.getPosition(board.touch_idx): board.puzzle_config}
             solution_list.append(key_value_pair)
 
         solution_list.reverse()
+
+        first_flag = True
         for pair in solution_list:
-            self.solution_file.write(pair.keys() + " " + pair.values()) # don't know how to retrieve it
+            position = list(pair.keys())[0]
+            config = list(pair.values())[0]
+
+            if first_flag:
+                self.solution_file.write("0 " + config + "\n")
+                first_flag = False
+            else:
+                self.solution_file.write(str(position) + " " + config + "\n")
 
         self.solution_file.close()

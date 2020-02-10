@@ -6,7 +6,7 @@ def main():
         print(element)
 
         # Create root node
-        board = Board(int(element[0]), element[3], None, -1,  1)
+        board = Board(int(element[0]), element[3], None, 0,  1)
         max_depth = int(element[1])
 
         # DFS
