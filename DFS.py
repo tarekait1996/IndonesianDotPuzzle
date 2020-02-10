@@ -1,7 +1,7 @@
 from Board import Board
 from pathlib import Path
 
-closed_list = set()
+closed_list = {}
 open_list = []
 goal_found_flag = False
 
@@ -33,12 +33,15 @@ class DFS:
 
             b = open_list.pop()
 
+            if b.puzzle_config in closed_list and closed_list[b.puzzle_config] < b.depth:
+                continue
+
             # Test
             print("\n")
             b.printBoard()
             print("\n")
 
-            closed_list.add(b.puzzle_config)
+            closed_list[b.puzzle_config] = b.depth
             self.search_file.write("0\t0\t0\t" + b.puzzle_config + "\n")
 
             if b.isGoal():
