@@ -1,4 +1,5 @@
 from Board import Board
+from pathlib import Path
 
 closed_list = set()
 open_list = []
@@ -9,6 +10,9 @@ class DFS:
     def __init__(self, board: Board, max_depth: int, index: int):
         self.board = board
         self.max_depth = max_depth
+
+        ## File creation
+        Path("Outputs").mkdir(parents=True, exist_ok=True)
 
         # Search file
         file_name_dfs_search = "Outputs/" + str(index) + "_dfs_search.txt"
@@ -38,7 +42,7 @@ class DFS:
             print("\n")
 
             closed_list.add(b.puzzle_config)
-            self.search_file.write(b.toString())
+            self.search_file.write("0\t0\t0\t" + b.puzzle_config + "\n")
 
             if b.isGoal():
                 print("Found it!\n")
@@ -59,17 +63,20 @@ class DFS:
         goal_found_flag = False
         open_list.clear()
         closed_list.clear()
+        self.search_file.close()
 
     def populate_solution_file(self, board: Board):
         solution_list = []
-        solution_list.append(board.puzzle_config)
+        key_value_pair = {board.touch_idx: board.puzzle_config}
+        solution_list.append(key_value_pair)
 
         while not board.isRoot():
             board = board.parent
-            solution_list.append(board.puzzle_config)
+            key_value_pair = {board.touch_idx: board.puzzle_config}
+            solution_list.append(key_value_pair)
 
         solution_list.reverse()
-        for config in solution_list:
-            self.solution_file.write("0\t0\t0\t" + config + "\n")
+        for pair in solution_list:
+            self.solution_file.write(pair.keys() + " " + pair.values()) # don't know how to retrieve it
 
         self.solution_file.close()
