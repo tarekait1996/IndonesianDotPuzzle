@@ -3,6 +3,15 @@
 ## Project's url: 
 https://github.com/tarekait1996/IndonesianDotPuzzle/
 
+## How to run:
+1. cd into IndonesianDotPuzzle/
+2. Run command: python Main.py
+
+## Programmers
+Viveka Anban -- 40063308
+Tarek Ait Hamouda -- 40044119
+Ferdousara Parvin -- 40062738
+
 ## Project Setup
 - [![Run on Repl.it](https://repl.it/badge/github/tarekait1996/IndonesianDotPuzzle)](https://repl.it/github/tarekait1996/IndonesianDotPuzzle)
 
