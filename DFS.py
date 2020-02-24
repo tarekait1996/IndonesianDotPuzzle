@@ -35,7 +35,6 @@ class DFS(SearchAlgo):
                 goal_found_flag = True
 
             elif b.depth < self.max_depth:
-                print("this should be printed")
                 self.update_and_sort_open_list(b, open_list)
 
         if not goal_found_flag:
