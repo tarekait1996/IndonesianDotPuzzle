@@ -59,10 +59,6 @@ class Board:
 
     def isGoal(self):
         return self.puzzle_config.count('0') == self.size * self.size
-    
-    def computeHeuristic(self):
-      #TODO: dumb h(n), will change later
-      self.heuristic = self.puzzle_config.count('1')
 
     def printBoard(self):
         j = 0
@@ -74,32 +70,8 @@ class Board:
             j += 1
         print(res)
 
-    #TODO: remove toString method and use __repr__
     def toString(self):
         if self.touch_idx == -1:
             return ("0 \t" + self.puzzle_config + "\n")
 
         return self.getPosition(self.touch_idx) + "\t" + self.puzzle_config + "\n"
-    
-    def __eq__(self, other):
-      return self.heuristic == other.heuristic
-
-    def __ne__(self, other):
-      return self.heuristic != other.heuristic
-
-    def __lt__(self, other):
-      return self.heuristic < other.heuristic
-
-    def __le__(self, other):
-      return self.heuristic <= other.heuristic
-
-    def __gt__(self, other):
-      return self.heuristic > other.heuristic
-
-    def __ge__(self, other):
-      return self.heuristic >= other.heuristic
-
-    def __repr__(self):
-      if self.touch_idx == -1:
-        return "0\t%s\n" % (self.puzzle_config)
-      return "%s\t%s\n" % (self.getPosition(self.touch_idx), self.puzzle_config)
