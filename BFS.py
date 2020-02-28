@@ -1,7 +1,7 @@
 from Board import Board
 from SearchAlgo import SearchAlgo
 from queue import PriorityQueue
-
+import time
 # open_list  is a Priority Queue
 
 #same as dfs, except it sorts it's open list based on an heuristic
@@ -14,7 +14,7 @@ class BFS(SearchAlgo):
   def __init__(self, board: Board, max_length: int, index: int):
     super().__init__(board, -1, index)
     self.max_length = max_length
-    self.board.computeHeuristic()
+    self.board.computeHeuristic(index)
     
   def search(self):
       global goal_found_flag
@@ -22,6 +22,7 @@ class BFS(SearchAlgo):
       global closed_list
 
       open_list.put(self.board)
+      start_time = time.time()
 
       while not open_list.empty() and goal_found_flag is False:
 
@@ -41,6 +42,7 @@ class BFS(SearchAlgo):
 
           if b.isGoal():
               print("Found it!\n") # Test
+              print("--- %s seconds ---" % (time.time() - start_time))
               self.populate_solution_file(b)
               goal_found_flag = True
 
@@ -60,7 +62,7 @@ class BFS(SearchAlgo):
   def update_and_sort_open_list(self, b:Board, open_list):
     for i in range(0, b.size * b.size):
         child_b = b.touch(i)
-        child_b.computeHeuristic()
+        child_b.computeHeuristic(i)
         open_list.put(child_b)
         
       # temp_arr = []

@@ -60,9 +60,24 @@ class Board:
     def isGoal(self):
         return self.puzzle_config.count('0') == self.size * self.size
     
-    def computeHeuristic(self):
-      #TODO: dumb h(n), will change later
-      self.heuristic = self.puzzle_config.count('1')
+    def computeHeuristic(self, index):
+        sum = 0
+        left = self.getLeft(index)
+        right = self.getRight(index)
+        top = self.getTop(index)
+        bottom = self.getBottom(index)
+
+        sum += (int(self.puzzle_config[index]))
+
+        if(left > 0):
+            sum += int(self.puzzle_config[left])
+        if (right > 0):
+            sum += int(self.puzzle_config[right])
+        if (top > 0):
+            sum += int(self.puzzle_config[top])
+        if (bottom > 0):
+            sum += int(self.puzzle_config[bottom])
+        self.heuristic = sum
 
     def printBoard(self):
         j = 0
