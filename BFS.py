@@ -14,7 +14,7 @@ class BFS(SearchAlgo):
   def __init__(self, board: Board, max_length: int, index: int):
     super().__init__(board, -1, index)
     self.max_length = max_length
-    self.board.computeHeuristic(index)
+    self.board.computeHeuristic()
     
   def search(self):
       global goal_found_flag
@@ -28,7 +28,7 @@ class BFS(SearchAlgo):
 
           b = open_list.get()
 
-          if b.puzzle_config in closed_list and closed_list[b.puzzle_config] < b.heuristic:
+          if b.puzzle_config in closed_list and closed_list[b.puzzle_config] < b.depth:
               continue
               # Now we need to check if it is an element that is already in closed list, if it is a lower heuristic that we found now then we replace it by lowest one.
           # Test
@@ -36,7 +36,7 @@ class BFS(SearchAlgo):
           b.printBoard()
           print("\n")
 
-          closed_list[b.puzzle_config] = b.heuristic
+          closed_list[b.puzzle_config] = b.depth
           #TODO: change this to display correct values (not 0 0 0 )
           self.search_file.write("0\t0\t0\t" + b.puzzle_config + "\n")
 
@@ -62,7 +62,7 @@ class BFS(SearchAlgo):
   def update_and_sort_open_list(self, b:Board, open_list):
     for i in range(0, b.size * b.size):
         child_b = b.touch(i)
-        child_b.computeHeuristic(i)
+        child_b.computeHeuristic()
         open_list.put(child_b)
         
       # temp_arr = []
