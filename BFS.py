@@ -30,7 +30,6 @@ class BFS(SearchAlgo):
 
           if b.puzzle_config in closed_list and closed_list[b.puzzle_config] < b.depth:
               continue
-              # Now we need to check if it is an element that is already in closed list, if it is a lower heuristic that we found now then we replace it by lowest one.
           # Test
           print("\n")
           b.printBoard()
@@ -64,12 +63,3 @@ class BFS(SearchAlgo):
         child_b = b.touch(i)
         child_b.computeHeuristic()
         open_list.put(child_b)
-        
-      # temp_arr = []
-      # for i in range(0, b.size * b.size):
-      #   child_b = b.touch(i)
-      #   temp_arr.put((child_b.heuristic,child_b))
-      #   # we dont wanna be sorting it au complet every single time tho
-      # temp_arr.sort(reverse=True, key=lambda x: x.puzzle_config)
-      # for i in temp_arr:
-      #   open_list.put((i.heuristic, i))
