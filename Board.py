@@ -59,10 +59,62 @@ class Board:
 
     def isGoal(self):
         return self.puzzle_config.count('0') == self.size * self.size
-    
+
+    # def computeHeuristic(self, index):
+    #     sum = 0
+    #     left = self.getLeft(index)
+    #     right = self.getRight(index)
+    #     top = self.getTop(index)
+    #     bottom = self.getBottom(index)
+    #
+    #     sum += (int(self.puzzle_config[index]))
+    #
+    #     if(left > 0):
+    #         sum += int(self.puzzle_config[left])
+    #     if (right > 0):
+    #         sum += int(self.puzzle_config[right])
+    #     if (top > 0):
+    #         sum += int(self.puzzle_config[top])
+    #     if (bottom > 0):
+    #         sum += int(self.puzzle_config[bottom])
+    #     self.heuristic = sum
+
     def computeHeuristic(self):
-      #TODO: dumb h(n), will change later
-      self.heuristic = self.puzzle_config.count('1')
+        self.heuristic = self.getNumberOfOnes() + self.getNumberOfIslands()
+
+    def computeF(self):
+        self.heuristic = self.getNumberOfOnes() + self.getNumberOfIslands() + self.depth
+
+    def getNumberOfOnes(self):
+        return self.puzzle_config.count('1')
+
+    def getNumberOfIslands(self):
+        number = 0
+        copy_config = self.puzzle_config[:]
+        for i in range(0, self.size * self.size):
+            if copy_config[i] == '1':
+                copy_config = self.numIslandsHelper(i, copy_config)
+                number += 1
+        return number
+
+    def numIslandsHelper(self, index, copy_config):
+
+        left = self.getLeft(index)
+        right = self.getRight(index)
+        top = self.getTop(index)
+        bottom = self.getBottom(index)
+
+        copy_config = copy_config[:index] + '0' + copy_config[index + 1:]
+
+        if left > 0 and copy_config[left] == '1':
+            copy_config = self.numIslandsHelper(left, copy_config)
+        if right > 0 and copy_config[right] == '1':
+            copy_config = self.numIslandsHelper(right, copy_config)
+        if top > 0 and copy_config[top] == '1':
+            copy_config = self.numIslandsHelper(top, copy_config)
+        if bottom > 0 and copy_config[bottom] == '1':
+            copy_config = self.numIslandsHelper(bottom, copy_config)
+        return copy_config
 
     def printBoard(self):
         j = 0
@@ -74,32 +126,25 @@ class Board:
             j += 1
         print(res)
 
-    #TODO: remove toString method and use __repr__
-    def toString(self):
-        if self.touch_idx == -1:
-            return ("0 \t" + self.puzzle_config + "\n")
-
-        return self.getPosition(self.touch_idx) + "\t" + self.puzzle_config + "\n"
-    
     def __eq__(self, other):
-      return self.heuristic == other.heuristic
+        return self.heuristic == other.heuristic and self.puzzle_config == other.puzzle_config
 
     def __ne__(self, other):
-      return self.heuristic != other.heuristic
+        return self.heuristic != other.heuristic
 
     def __lt__(self, other):
-      return self.heuristic < other.heuristic
+        return self.heuristic < other.heuristic or (self.heuristic == other.heuristic and self.puzzle_config < other.puzzle_config)
 
     def __le__(self, other):
-      return self.heuristic <= other.heuristic
+        return self.heuristic < other.heuristic or (self.heuristic == other.heuristic and self.puzzle_config <= other.puzzle_config)
 
     def __gt__(self, other):
-      return self.heuristic > other.heuristic
+        return self.heuristic > other.heuristic or (self.heuristic == other.heuristic and self.puzzle_config > other.puzzle_config)
 
     def __ge__(self, other):
-      return self.heuristic >= other.heuristic
+        return self.heuristic > other.heuristic or (self.heuristic == other.heuristic and self.puzzle_config >= other.puzzle_config)
 
     def __repr__(self):
-      if self.touch_idx == -1:
-        return "0\t%s\n" % (self.puzzle_config)
-      return "%s\t%s\n" % (self.getPosition(self.touch_idx), self.puzzle_config)
+        if self.touch_idx == -1:
+            return "0\t%s\n" % (self.puzzle_config)
+        return "%s\t%s\n" % (self.getPosition(self.touch_idx), self.puzzle_config)

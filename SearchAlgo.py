@@ -53,3 +53,6 @@ class SearchAlgo(ABC):
     @abstractmethod
     def update_and_sort_open_list(self, b:Board, open_list):
         pass
+
+    def getSearchOutput(self, g, h, board):
+        return "{}\t{}\t{}\t{}\n".format(int(g+h), g, h, board)

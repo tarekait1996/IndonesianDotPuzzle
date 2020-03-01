@@ -27,7 +27,7 @@ class DFS(SearchAlgo):
             print("\n")
 
             closed_list[b.puzzle_config] = b.depth
-            self.search_file.write("0\t0\t0\t" + b.puzzle_config + "\n")
+            self.search_file.write(b.getSearchOutput(0, 0))
 
             if b.isGoal():
                 print("Found it!\n") # Test
@@ -45,7 +45,6 @@ class DFS(SearchAlgo):
         open_list.clear()
         closed_list.clear()
         self.search_file.close()
-
 
     def update_and_sort_open_list(self, b:Board, open_list):
         temp_arr = []
