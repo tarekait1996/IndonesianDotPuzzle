@@ -2,10 +2,10 @@ from Board import Board
 from SearchAlgo import SearchAlgo
 from queue import PriorityQueue
 import time
-# open_list  is a Priority Queue
+# open_list is a Priority Queue
 
 #same as dfs, except it sorts it's open list based on an heuristic
-closed_list = {}
+closed_list = set()
 open_list = PriorityQueue()
 goal_found_flag = False
 
@@ -28,16 +28,17 @@ class BFS(SearchAlgo):
 
           b = open_list.get()
 
-          if b.puzzle_config in closed_list and closed_list[b.puzzle_config] < b.depth:
+          if b.puzzle_config in closed_list:
               continue
           # Test
           print("\n")
           b.printBoard()
           print("\n")
 
-          closed_list[b.puzzle_config] = b.depth
+          print("closed_list type ->" + str(type(closed_list)))
+          closed_list.add(b.puzzle_config)
           #TODO: change this to display correct values (not 0 0 0 )
-          self.search_file.write(b.getSearchOutput(b.depth, b.heuristic))
+          self.search_file.write(self.getSearchOutput(b.depth, b.heuristic, b))
 
           if b.isGoal():
               print("Found it!\n") # Test

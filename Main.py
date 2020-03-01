@@ -17,8 +17,9 @@ def main():
         # dfs.search()
 
         #BFS
-        # bfs = BFS(board, max_length, line_number)
-        # bfs.search()
+        bfs = BFS(board, max_length, line_number)
+        bfs.search()
+        
         astar = ASTAR(board, max_length, line_number)
         astar.search()
 

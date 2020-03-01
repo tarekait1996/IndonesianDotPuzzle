@@ -83,6 +83,7 @@ class Board:
         self.heuristic = self.getNumberOfOnes() + self.getNumberOfIslands()
 
     def computeF(self):
+      # f = h + g
         self.heuristic = self.getNumberOfOnes() + self.getNumberOfIslands() + self.depth
 
     def getNumberOfOnes(self):

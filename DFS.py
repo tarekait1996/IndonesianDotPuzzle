@@ -27,7 +27,7 @@ class DFS(SearchAlgo):
             print("\n")
 
             closed_list[b.puzzle_config] = b.depth
-            self.search_file.write(b.getSearchOutput(0, 0))
+            self.search_file.write(self.getSearchOutput(0, 0, b))
 
             if b.isGoal():
                 print("Found it!\n") # Test
