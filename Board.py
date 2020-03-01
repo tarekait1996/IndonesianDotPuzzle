@@ -59,7 +59,7 @@ class Board:
 
     def isGoal(self):
         return self.puzzle_config.count('0') == self.size * self.size
-    
+
     # def computeHeuristic(self, index):
     #     sum = 0
     #     left = self.getLeft(index)
@@ -125,13 +125,6 @@ class Board:
                 res += "\n"
             j += 1
         print(res)
-
-    # TODO: remove toString method and use __repr__
-    def toString(self):
-        if self.touch_idx == -1:
-            return ("0 \t" + self.puzzle_config + "\n")
-
-        return self.getPosition(self.touch_idx) + "\t" + self.puzzle_config + "\n"
 
     def __eq__(self, other):
         return self.heuristic == other.heuristic and self.puzzle_config == other.puzzle_config

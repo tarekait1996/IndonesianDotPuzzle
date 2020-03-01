@@ -15,7 +15,7 @@ class BFS(SearchAlgo):
     super().__init__(board, -1, index)
     self.max_length = max_length
     self.board.computeHeuristic()
-    
+
   def search(self):
       global goal_found_flag
       global open_list
@@ -37,7 +37,7 @@ class BFS(SearchAlgo):
 
           closed_list[b.puzzle_config] = b.depth
           #TODO: change this to display correct values (not 0 0 0 )
-          self.search_file.write("0\t0\t0\t" + b.puzzle_config + "\n")
+          self.search_file.write(b.getSearchOutput(b.depth, b.heuristic))
 
           if b.isGoal():
               print("Found it!\n") # Test
@@ -56,7 +56,6 @@ class BFS(SearchAlgo):
       open_list = PriorityQueue()
       closed_list.clear()
       self.search_file.close()
-
 
   def update_and_sort_open_list(self, b:Board, open_list):
     for i in range(0, b.size * b.size):
