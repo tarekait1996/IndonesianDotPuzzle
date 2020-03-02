@@ -54,4 +54,4 @@ class SearchAlgo(ABC):
         pass
 
     def getSearchOutput(self, g, h, board):
-        return "{}\t{}\t{}\t{}\n".format(int(g+h), g, h, board)
+        return "{}\t{}\t{}\t{}".format(int(g+h), g, h, board)

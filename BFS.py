@@ -30,9 +30,9 @@ class BFS(SearchAlgo):
               continue
 
           # Test
-          print("\n")
-          b.printBoard()
-          print("\n")
+          # print("\n")
+          # b.printBoard()
+          # print("\n")
 
           closed_list.add(b.puzzle_config)
 
@@ -40,14 +40,16 @@ class BFS(SearchAlgo):
 
           if b.isGoal():
               print("Found it!\n") # Test
-              print("--- %s seconds ---" % (time.time() - start_time))
+              print("BFS--- %s seconds ---\n" % (time.time() - start_time))
               self.populate_solution_file(b)
               goal_found_flag = True
-
+          if closed_list.__len__() >= self.max_length:
+            break
           elif closed_list.__len__() < self.max_length:
               self.update_and_sort_open_list(b, open_list)
 
       if not goal_found_flag:
+          print("not found -- BFS--- %s seconds ---\n" % (time.time() - start_time))
           self.solution_file.write("no solution")
           self.solution_file.close()
 

@@ -1,5 +1,5 @@
 from Board import Board
-from BFS import BFS 
+from BFS import BFS
 import time
 from queue import PriorityQueue
 
@@ -24,24 +24,28 @@ class ASTAR(BFS):
             continue
 
           # Test
-          print("\n")
-          b.printBoard()
-          print("\n")
+          # print("\n")
+          # b.printBoard()
+          # print("\n")
 
           closed_list[b.puzzle_config] = b.depth
 
           self.search_file.write(self.getSearchOutput(b.depth, b.heuristic, b))
 
           if b.isGoal():
-              print("Found it!\n") # Test
-              print("--- %s seconds ---" % (time.time() - start_time))
+              # print("Found it!\n") # Test
+              print("A*--- %s seconds ---\n" % (time.time() - start_time))
               self.populate_solution_file(b)
               goal_found_flag = True
 
+          if closed_list.__len__() >= self.max_length:
+            break
           elif closed_list.__len__() < self.max_length:
+              print(closed_list.__len__())
               self.update_and_sort_open_list(b, open_list)
 
       if not goal_found_flag:
+          print("SOLUTION NOT FOUND: A*--- %s seconds ---\n" % (time.time() - start_time))
           self.solution_file.write("no solution")
           self.solution_file.close()
 

@@ -61,26 +61,58 @@ class Board:
         return self.puzzle_config.count('0') == self.size * self.size
 
     def computeHeuristic(self):
-      self.heuristic = 2*(self.getNumberOfOnes() + self.getNumberOfIslands())/5
-    
+      self.heuristic = self.computeCost_H()
+
     def computeF(self):
-      # f = h + g
-        self.heuristic = 2*(self.getNumberOfOnes() + self.getNumberOfIslands())/5 + self.depth
+      self.heuristic = self.computeCost_H() + self.depth
+
+    def computeCost_H(self):
+        return self.computeCost_H3()
+
+    # Different heuristics that can be used to calculate cost
+    def computeCost_H1(self):
+        return self.puzzle_config.count('1')
+
+    def computeCost_H2(self):
+      sum = 0
+      index = self.touch_idx
+
+      left = self.getLeft(index)
+      right = self.getRight(index)
+      top = self.getTop(index)
+      bottom = self.getBottom(index)
+  
+      sum += (int(self.puzzle_config[index]))
+  
+      if(left > 0):
+          sum += int(self.puzzle_config[left])
+      if (right > 0):
+          sum += int(self.puzzle_config[right])
+      if (top > 0):
+          sum += int(self.puzzle_config[top])
+      if (bottom > 0):
+          sum += int(self.puzzle_config[bottom])
+      return sum
+
+    def computeCost_H3(self):
+        return 2*(self.getNumberOfOnes() + self.getNumberOfClusters())/5
+
+    def computeCost_H4(self):
+        return (self.getNumberOfOnes() + self.getNumberOfClusters())/6
 
     def getNumberOfOnes(self):
         return self.puzzle_config.count('1')
 
-    def getNumberOfIslands(self):
+    def getNumberOfClusters(self):
         number = 0
         copy_config = self.puzzle_config[:]
         for i in range(0, self.size * self.size):
             if copy_config[i] == '1':
-                copy_config = self.numIslandsHelper(i, copy_config)
+                copy_config = self.numOfClustersHelper(i, copy_config)
                 number += 1
         return number
 
-    def numIslandsHelper(self, index, copy_config):
-
+    def numOfClustersHelper(self, index, copy_config):
         left = self.getLeft(index)
         right = self.getRight(index)
         top = self.getTop(index)
@@ -89,13 +121,13 @@ class Board:
         copy_config = copy_config[:index] + '0' + copy_config[index + 1:]
 
         if left > 0 and copy_config[left] == '1':
-            copy_config = self.numIslandsHelper(left, copy_config)
+            copy_config = self.numOfClustersHelper(left, copy_config)
         if right > 0 and copy_config[right] == '1':
-            copy_config = self.numIslandsHelper(right, copy_config)
+            copy_config = self.numOfClustersHelper(right, copy_config)
         if top > 0 and copy_config[top] == '1':
-            copy_config = self.numIslandsHelper(top, copy_config)
+            copy_config = self.numOfClustersHelper(top, copy_config)
         if bottom > 0 and copy_config[bottom] == '1':
-            copy_config = self.numIslandsHelper(bottom, copy_config)
+            copy_config = self.numOfClustersHelper(bottom, copy_config)
         return copy_config
 
     def printBoard(self):
@@ -108,6 +140,7 @@ class Board:
             j += 1
         print(res)
 
+    # Comparators (PQ uses these comparators to sort)
     def __eq__(self, other):
         return self.heuristic == other.heuristic and self.puzzle_config == other.puzzle_config
 

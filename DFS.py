@@ -1,6 +1,7 @@
 from Board import Board
 from pathlib import Path
 from SearchAlgo import SearchAlgo
+import time
 
 closed_list = {}
 open_list = []
@@ -13,6 +14,7 @@ class DFS(SearchAlgo):
         global closed_list
 
         open_list.append(self.board)
+        start_time = time.time()
 
         while len(open_list) != 0 and goal_found_flag is False:
 
@@ -22,15 +24,16 @@ class DFS(SearchAlgo):
                 continue
 
             # Test
-            print("\n")
-            b.printBoard()
-            print("\n")
+            # print("\n")
+            # b.printBoard()
+            # print("\n")
 
             closed_list[b.puzzle_config] = b.depth
             self.search_file.write(self.getSearchOutput(0, 0, b))
 
             if b.isGoal():
                 print("Found it!\n") # Test
+                print("DFS--- %s seconds ---\n" % (time.time() - start_time))
                 self.populate_solution_file(b)
                 goal_found_flag = True
 
@@ -38,6 +41,7 @@ class DFS(SearchAlgo):
                 self.update_and_sort_open_list(b, open_list)
 
         if not goal_found_flag:
+            print("not found --  DFS--- %s seconds ---\n" % (time.time() - start_time))
             self.solution_file.write("no solution")
             self.solution_file.close()
 
