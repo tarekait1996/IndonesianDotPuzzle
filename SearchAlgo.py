@@ -6,9 +6,8 @@ class SearchAlgo(ABC):
     def __init__(self, board: Board, max_depth: int, index: int):
         self.board = board
         self.max_depth = max_depth
-        # see the convo
 
-        ## File creation
+        # File creation
         Path("Outputs").mkdir(parents=True, exist_ok=True)
 
         algo_name = type(self).__name__.lower()
