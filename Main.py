@@ -6,12 +6,14 @@ from ASTAR import ASTAR
 def main():
     for line_number, element in enumerate(get_input("input.txt")):
         print(element)
-
-        # Create root node
-        board = Board(int(element[0]), element[3], None, 0,  1)
+        board_size = int(element[0])
+        board_puzzle_config = element[3]
+        board_initial_depth = 1
         max_depth = int(element[1])
         max_length = int(element[2])
-
+        
+        board = Board(board_size, board_puzzle_config, None, 0,  board_initial_depth)
+        
         # DFS
         # dfs = DFS(board, max_depth, line_number)
         # dfs.search()

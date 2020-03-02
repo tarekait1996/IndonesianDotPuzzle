@@ -38,6 +38,8 @@ class ASTAR(BFS):
               self.populate_solution_file(b)
               goal_found_flag = True
 
+          if closed_list.__len__() >= self.max_length:
+            break
           elif closed_list.__len__() < self.max_length:
               print(closed_list.__len__())
               self.update_and_sort_open_list(b, open_list)

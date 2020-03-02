@@ -2,9 +2,8 @@ from Board import Board
 from SearchAlgo import SearchAlgo
 from queue import PriorityQueue
 import time
-# open_list is a Priority Queue
 
-#same as dfs, except it sorts it's open list based on an heuristic
+#same as dfs, except it sorts its open list based on an heuristic
 closed_list = set()
 open_list = PriorityQueue()
 goal_found_flag = False
@@ -36,7 +35,6 @@ class BFS(SearchAlgo):
           # print("\n")
 
           closed_list.add(b.puzzle_config)
-          #TODO: change this to display correct values (not 0 0 0 )
           self.search_file.write(self.getSearchOutput(b.depth, b.heuristic, b))
 
           if b.isGoal():
@@ -44,7 +42,8 @@ class BFS(SearchAlgo):
               print("BFS--- %s seconds ---\n" % (time.time() - start_time))
               self.populate_solution_file(b)
               goal_found_flag = True
-
+          if closed_list.__len__() >= self.max_length:
+            break
           elif closed_list.__len__() < self.max_length:
               self.update_and_sort_open_list(b, open_list)
 
