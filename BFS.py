@@ -3,7 +3,6 @@ from SearchAlgo import SearchAlgo
 from queue import PriorityQueue
 import time
 
-#same as dfs, except it sorts its open list based on an heuristic
 closed_list = set()
 open_list = PriorityQueue()
 goal_found_flag = False
@@ -29,12 +28,14 @@ class BFS(SearchAlgo):
 
           if b.puzzle_config in closed_list:
               continue
+
           # Test
           # print("\n")
           # b.printBoard()
           # print("\n")
 
           closed_list.add(b.puzzle_config)
+
           self.search_file.write(self.getSearchOutput(b.depth, b.heuristic, b))
 
           if b.isGoal():

@@ -7,7 +7,6 @@ closed_list = {}
 open_list = PriorityQueue()
 goal_found_flag = False
 
-# same as bfs, except it will calculate f(n) = g(n) + h(n)
 class ASTAR(BFS):
     def search(self):
       global goal_found_flag
@@ -30,6 +29,7 @@ class ASTAR(BFS):
           # print("\n")
 
           closed_list[b.puzzle_config] = b.depth
+
           self.search_file.write(self.getSearchOutput(b.depth, b.heuristic, b))
 
           if b.isGoal():
