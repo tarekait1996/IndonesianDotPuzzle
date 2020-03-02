@@ -61,11 +61,26 @@ class Board:
         return self.puzzle_config.count('0') == self.size * self.size
 
     def computeHeuristic(self):
-      self.heuristic = 2*(self.getNumberOfOnes() + self.getNumberOfIslands())/5
-    
+      self.heuristic = self.computeCost_H()
+
     def computeF(self):
       # f = h + g
-        self.heuristic = 2*(self.getNumberOfOnes() + self.getNumberOfIslands())/5 + self.depth
+        self.heuristic = self.computeCost_H() + self.depth
+
+    def computeCost_H(self):
+        return self.computeCost_H4()
+
+    def computeCost_H1(self):
+        return self.puzzle_config.count('1')
+
+    def computeCost_H2(self):
+        return 2*(self.getNumberOfOnes() + self.getNumberOfIslands())/5
+
+    def computeCost_H3(self):
+        return 2*(self.getNumberOfOnes() + self.getNumberOfIslands())/5
+
+    def computeCost_H4(self):
+        return 1*(self.getNumberOfOnes() + self.getNumberOfIslands())/6
 
     def getNumberOfOnes(self):
         return self.puzzle_config.count('1')

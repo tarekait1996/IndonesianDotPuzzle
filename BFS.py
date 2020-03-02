@@ -31,18 +31,17 @@ class BFS(SearchAlgo):
           if b.puzzle_config in closed_list:
               continue
           # Test
-          print("\n")
-          b.printBoard()
-          print("\n")
+          # print("\n")
+          # b.printBoard()
+          # print("\n")
 
-          print("closed_list type ->" + str(type(closed_list)))
           closed_list.add(b.puzzle_config)
           #TODO: change this to display correct values (not 0 0 0 )
           self.search_file.write(self.getSearchOutput(b.depth, b.heuristic, b))
 
           if b.isGoal():
               print("Found it!\n") # Test
-              print("--- %s seconds ---" % (time.time() - start_time))
+              print("BFS--- %s seconds ---\n" % (time.time() - start_time))
               self.populate_solution_file(b)
               goal_found_flag = True
 
@@ -50,6 +49,7 @@ class BFS(SearchAlgo):
               self.update_and_sort_open_list(b, open_list)
 
       if not goal_found_flag:
+          print("not found -- BFS--- %s seconds ---\n" % (time.time() - start_time))
           self.solution_file.write("no solution")
           self.solution_file.close()
 
